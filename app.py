@@ -11,16 +11,16 @@ import os
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'dracin-viewer-secret-key-2024'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///dracin.db'
+app.config['SECRET_KEY'] = 'dracin-viewer-secret-key-2026'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///yourapp.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Email Configuration (Gmail SMTP)
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'dracinviewer@gmail.com'
-app.config['MAIL_PASSWORD'] = 'upiu svef mpab owqo'
+app.config['MAIL_USERNAME'] = 'youremail@gmail.com'
+app.config['MAIL_PASSWORD'] = 'yout app passwords'
 
 db = SQLAlchemy(app)
 mail = Mail(app)
