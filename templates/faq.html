@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+
+{% block title %}FAQ - {{ app_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    
+    .page-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    
+    .page-header h1 {
+        font-size: 2.5em;
+        margin-bottom: 15px;
+        background: linear-gradient(45deg, #00d9ff, #ff00ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .page-header p {
+        color: #888;
+    }
+    
+    .faq-item {
+        background: rgba(255,255,255,0.05);
+        border-radius: 15px;
+        margin-bottom: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .faq-question {
+        padding: 25px 30px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s;
+    }
+    
+    .faq-question:hover {
+        background: rgba(255,255,255,0.05);
+    }
+    
+    .faq-question h3 {
+        font-size: 18px;
+        color: #fff;
+        margin: 0;
+    }
+    
+    .faq-question i {
+        color: #00d9ff;
+        transition: all 0.3s;
+    }
+    
+    .faq-item.active .faq-question i {
+        transform: rotate(180deg);
+    }
+    
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: all 0.3s;
+    }
+    
+    .faq-item.active .faq-answer {
+        max-height: 500px;
+    }
+    
+    .faq-answer-content {
+        padding: 0 30px 25px;
+        color: #aaa;
+        line-height: 1.8;
+    }
+    
+    .highlight {
+        color: #00d9ff;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="faq-container">
+    <div class="page-header">
+        <h1><i class="fas fa-question-circle"></i> Frequently Asked Questions</h1>
+        <p>Temukan jawaban untuk pertanyaan umum tentang {{ app_name }}</p>
+    </div>
+    
+    <div class="faq-item active">
+        <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Apa itu {{ app_name }}?</h3>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+            <div class="faq-answer-content">
+                <span class="highlight">{{ app_name }}</span> adalah platform streaming drama China terbaik yang menyediakan ribuan episode drama berkualitas HD. Kami berkomitmen memberikan pengalaman menonton terbaik dengan fitur auto-next episode, riwayat tontonan, dan akses multi-device.
+            </div>
+        </div>
+    </div>
+    
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Apakah {{ app_name }} gratis?</h3>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+            <div class="faq-answer-content">
+                Ya! <span class="highlight">{{ app_name }} 100% gratis</span>. Anda tidak perlu membayar subscription atau membeli premium. Cukup daftar akun gratis dan langsung nikmati semua drama yang tersedia tanpa batasan.
+            </div>
+        </div>
+    </div>
+    
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Bagaimana cara mendaftar?</h3>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+            <div class="faq-answer-content">
+                Klik tombol <span class="highlight">"Daftar"</span> di pojok kanan atas, isi username, email, dan password. Selesaikan verifikasi captcha dan masukkan kode verifikasi yang dikirim ke email Anda. Akun Anda akan aktif dalam hitungan menit!
+            </div>
+        </div>
+    </div>
+    
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Mengapa harus memilih {{ app_name }}?</h3>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+            <div class="faq-answer-content">
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><span class="highlight">Gratis 100%</span> - Tanpa biaya tersembunyi</li>
+                    <li><span class="highlight">Koleksi Lengkap</span> - Ribuan drama China populer</li>
+                    <li><span class="highlight">Auto Next Episode</span> - Marathon tanpa henti</li>
+                    <li><span class="highlight">Kualitas HD</span> - Streaming lancar tanpa buffering</li>
+                    <li><span class="highlight">Riwayat Tontonan</span> - Lanjutkan dari episode terakhir</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Apakah ada aplikasi mobile?</h3>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+            <div class="faq-answer-content">
+                Saat ini {{ app_name }} tersedia dalam versi web yang responsif dan dapat diakses dari browser HP Anda. Kami sedang mengembangkan aplikasi native untuk Android dan iOS yang akan dirilis segera!
+            </div>
+        </div>
+    </div>
+    
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Bagaimana jika lupa password?</h3>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+            <div class="faq-answer-content">
+                Hubungi kami melalui menu <span class="highlight">"Hubungi Kami"</span> di footer dengan menyertakan email akun Anda. Tim support kami akan membantu reset password dalam 24 jam.
+            </div>
+        </div>
+    </div>
+    
+    <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+            <h3>Apakah konten diperbarui secara berkala?</h3>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+        <div class="faq-answer">
+            <div class="faq-answer-content">
+                <span class="highlight">Ya!</span> Kami memperbarui koleksi drama setiap minggu dengan episode terbaru. Pantau terus {{ app_name }} untuk drama China terpopuler dan terbaru.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function toggleFaq(element) {
+    const item = element.parentElement;
+    const wasActive = item.classList.contains('active');
+    
+    // Close all
+    document.querySelectorAll('.faq-item').forEach(faq => {
+        faq.classList.remove('active');
+    });
+    
+    // Open clicked if wasn't active
+    if (!wasActive) {
+        item.classList.add('active');
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,465 @@
+{% extends "base.html" %}
+
+{% block title %}Beranda - {{ app_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Hero Section */
+    .hero {
+        text-align: center;
+        padding: 40px 15px;
+        background: radial-gradient(ellipse at center, rgba(0,217,255,0.15) 0%, transparent 70%);
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+        margin-bottom: 15px;
+        background: linear-gradient(45deg, #00d9ff, #ff00ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        line-height: 1.3;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+        color: #aaa;
+        max-width: 500px;
+        margin: 0 auto 25px;
+        padding: 0 15px;
+    }
+    
+    .hero .btn {
+        font-size: 1rem;
+        padding: 12px 30px;
+    }
+    
+    .hero-stats {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+    
+    .stat-item {
+        text-align: center;
+        min-width: 80px;
+    }
+    
+    .stat-number {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #00d9ff;
+    }
+    
+    .stat-label {
+        color: #888;
+        font-size: 0.8rem;
+    }
+    
+    /* Search Section */
+    .search-section {
+        max-width: 600px;
+        margin: 0 auto 40px;
+        padding: 0 15px;
+    }
+    
+    .search-box {
+        position: relative;
+    }
+    
+    .search-box input {
+        width: 100%;
+        padding: 15px 50px 15px 20px;
+        font-size: 1rem;
+        border: 2px solid transparent;
+        border-radius: 50px;
+        background: rgba(255,255,255,0.1);
+        color: white;
+        outline: none;
+        transition: all 0.3s;
+    }
+    
+    .search-box input:focus {
+        background: rgba(255,255,255,0.15);
+        border-color: #00d9ff;
+        box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+    }
+    
+    .search-box input::placeholder {
+        color: #888;
+    }
+    
+    .search-btn {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: linear-gradient(45deg, #00d9ff, #ff00ff);
+        border: none;
+        padding: 10px 20px;
+        border-radius: 25px;
+        color: white;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+    
+    /* Features Section */
+    .features {
+        padding: 40px 15px;
+        background: rgba(0,0,0,0.2);
+        margin: 30px 0;
+    }
+    
+    .section-title {
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: 30px;
+        color: #fff;
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    
+    .feature-card {
+        background: rgba(255,255,255,0.05);
+        padding: 25px 20px;
+        border-radius: 15px;
+        text-align: center;
+        border: 1px solid rgba(255,255,255,0.1);
+        transition: all 0.3s;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+        border-color: #00d9ff;
+    }
+    
+    .feature-icon {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+        background: linear-gradient(45deg, #00d9ff, #ff00ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .feature-card h3 {
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+    }
+    
+    .feature-card p {
+        color: #888;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+    
+    /* Results */
+    .results-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+        padding: 0 15px;
+    }
+    
+    @media (min-width: 768px) {
+        .results-grid {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+    }
+    
+    .drama-card {
+        background: rgba(255,255,255,0.05);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s;
+        cursor: pointer;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .drama-card:hover {
+        transform: translateY(-5px);
+        border-color: #00d9ff;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    }
+    
+    .drama-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+    }
+    
+    @media (min-width: 768px) {
+        .drama-card img {
+            height: 280px;
+        }
+    }
+    
+    .drama-info {
+        padding: 12px;
+    }
+    
+    .drama-info h3 {
+        font-size: 0.9rem;
+        margin-bottom: 8px;
+        line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        color: #fff;
+        height: 2.4em;
+    }
+    
+    .drama-meta {
+        color: #888;
+        font-size: 0.75rem;
+    }
+    
+    .drama-meta span {
+        display: block;
+        margin-top: 4px;
+    }
+    
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-top: 8px;
+    }
+    
+    .tag {
+        background: linear-gradient(45deg, #00d9ff, #ff00ff);
+        padding: 3px 8px;
+        border-radius: 10px;
+        font-size: 0.7rem;
+        color: white;
+        font-weight: 600;
+    }
+    
+    .no-results {
+        text-align: center;
+        padding: 40px 20px;
+        color: #aaa;
+    }
+    
+    .no-results h3 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+    }
+    
+    .loading {
+        text-align: center;
+        padding: 40px;
+        color: #aaa;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+        text-align: center;
+        padding: 50px 15px;
+        background: radial-gradient(ellipse at center, rgba(255,0,255,0.1) 0%, transparent 70%);
+    }
+    
+    .cta-section h2 {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+    }
+    
+    .cta-section p {
+        color: #aaa;
+        margin-bottom: 25px;
+        font-size: 1rem;
+    }
+    
+    /* Responsive */
+    @media (min-width: 768px) {
+        .hero {
+            padding: 60px 20px;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+        }
+        
+        .features-grid {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <h1>{{ app_name }}</h1>
+    <p>Nikmati pengalaman menonton drama China terbaik dengan kualitas HD</p>
+    
+    {% if not current_user %}
+    <a href="/register" class="btn">
+        <i class="fas fa-play-circle"></i> Mulai Gratis
+    </a>
+    {% endif %}
+    
+    <div class="hero-stats">
+        <div class="stat-item">
+            <div class="stat-number">10K+</div>
+            <div class="stat-label">Drama</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">100K+</div>
+            <div class="stat-label">Episode</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">1M+</div>
+            <div class="stat-label">Users</div>
+        </div>
+    </div>
+</section>
+
+<!-- Search Section -->
+<section class="search-section">
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Cari drama..." autocomplete="off">
+        <button class="search-btn" onclick="searchDrama()">
+            <i class="fas fa-search"></i>
+        </button>
+    </div>
+    
+    <div id="results"></div>
+    <div id="loading" class="loading" style="display: none;">
+        <i class="fas fa-spinner fa-spin"></i> Mencari...
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <h2 class="section-title">Mengapa {{ app_name }}?</h2>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-infinity"></i></div>
+            <h3>Akses Tanpa Batas</h3>
+            <p>Tonton ribuan drama kapan saja, di mana saja</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-sync-alt"></i></div>
+            <h3>Auto Next</h3>
+            <p>Marathon tanpa henti dengan auto-play</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+            <h3>Multi Device</h3>
+            <p>Nonton di HP, tablet, atau laptop</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+            <h3>Streaming Cepat</h3>
+            <p>Server cepat, minimal buffering</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+{% if not current_user %}
+<section class="cta-section">
+    <h2>Siap Menonton?</h2>
+    <p>Buat akun gratis dan mulai petualangan drama Anda!</p>
+    <a href="/register" class="btn">
+        <i class="fas fa-user-plus"></i> Daftar Sekarang
+    </a>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function searchDrama() {
+    const keywords = document.getElementById('searchInput').value.trim();
+    if (!keywords) {
+        alert('Masukkan judul drama!');
+        return;
+    }
+    
+    document.getElementById('results').innerHTML = '';
+    document.getElementById('loading').style.display = 'block';
+    
+    fetch('/search', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `keywords=${encodeURIComponent(keywords)}`
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById('loading').style.display = 'none';
+        displayResults(data.results);
+    })
+    .catch(err => {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('results').innerHTML = '<div class="no-results">Terjadi kesalahan</div>';
+    });
+}
+
+function displayResults(results) {
+    if (!results || results.length === 0) {
+        document.getElementById('results').innerHTML = '<div class="no-results"><h3><i class="fas fa-search"></i> Tidak ditemukan</h3><p>Coba kata kunci lain</p></div>';
+        return;
+    }
+    
+    let html = '<div class="results-grid">';
+    
+    results.forEach(drama => {
+        const tagsHtml = drama.tag.slice(0, 3).map(t => `<span class="tag">${t}</span>`).join('');
+        
+        html += `
+            <div class="drama-card" onclick="selectDrama('${drama._id}', '${encodeURIComponent(drama.filtered_title)}', '${encodeURIComponent(drama.book_title)}', '${encodeURIComponent(drama.book_pic)}')">
+                <img src="${drama.book_pic}" alt="${drama.book_title}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x280?text=No+Image'">
+                <div class="drama-info">
+                    <h3>${drama.book_title}</h3>
+                    <div class="drama-meta">
+                        <span><i class="fas fa-film"></i> ${drama.chapter_count} Ep</span>
+                        <span><i class="fas fa-eye"></i> ${drama.read_count.toLocaleString()}</span>
+                    </div>
+                    <div class="tags">${tagsHtml}</div>
+                </div>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    document.getElementById('results').innerHTML = html;
+}
+
+function selectDrama(bookId, filteredTitle, bookTitle, bookPic) {
+    const url = `/episodes/${bookId}?filtered_title=${filteredTitle}&book_title=${bookTitle}&book_pic=${bookPic}`;
+    window.location.href = url;
+}
+
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') searchDrama();
+});
+</script>
+{% endblock %}
+p

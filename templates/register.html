@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block title %}Daftar - {{ app_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .auth-page {
+        min-height: calc(100vh - 200px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    
+    .auth-container {
+        width: 100%;
+        max-width: 400px;
+        background: rgba(255,255,255,0.05);
+        padding: 30px 20px;
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    @media (min-width: 768px) {
+        .auth-container {
+            padding: 40px;
+        }
+    }
+    
+    .auth-header {
+        text-align: center;
+        margin-bottom: 25px;
+    }
+    
+    .auth-header h1 {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+        background: linear-gradient(45deg, #00d9ff, #ff00ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .auth-header p {
+        color: #888;
+        font-size: 0.9rem;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 6px;
+        color: #aaa;
+        font-size: 0.85rem;
+    }
+    
+    .form-group input {
+        width: 100%;
+        padding: 12px 15px;
+        border: 2px solid rgba(255,255,255,0.1);
+        border-radius: 10px;
+        background: rgba(0,0,0,0.2);
+        color: white;
+        font-size: 1rem;
+    }
+    
+    .form-group input:focus {
+        outline: none;
+        border-color: #00d9ff;
+    }
+    
+    .captcha-box {
+        background: rgba(0,0,0,0.3);
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    
+    .captcha-question {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #00d9ff;
+        margin-bottom: 10px;
+    }
+    
+    .btn-full {
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+    }
+    
+    .auth-footer {
+        text-align: center;
+        margin-top: 20px;
+        color: #888;
+        font-size: 0.9rem;
+    }
+    
+    .auth-footer a {
+        color: #00d9ff;
+        text-decoration: none;
+        font-weight: 600;
+    }
+    
+    .steps {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .step {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: #888;
+        font-size: 0.9rem;
+    }
+    
+    .step.active {
+        background: linear-gradient(45deg, #00d9ff, #ff00ff);
+        color: white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1><i class="fas fa-user-plus"></i> Buat Akun</h1>
+            <p>Gratis, tanpa syarat!</p>
+        </div>
+        
+        <div class="steps">
+            <div class="step active">1</div>
+            <div class="step">2</div>
+            <div class="step">3</div>
+        </div>
+        
+        <form method="POST" action="/register">
+            <input type="hidden" name="step" value="1">
+            
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="username" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="email@example.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="••••••" required minlength="6">
+            </div>
+            
+            <div class="captcha-box">
+                <div style="font-size: 0.8rem; color: #888; margin-bottom: 8px;">Verifikasi</div>
+                <div class="captcha-question">{{ captcha_question }}</div>
+                <input type="text" name="captcha_answer" placeholder="Jawaban" required style="width: 120px; text-align: center;">
+            </div>
+            
+            <button type="submit" class="btn btn-full">Lanjutkan</button>
+        </form>
+        
+        <div class="auth-footer">
+            Sudah punya akun? <a href="/login">Login</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

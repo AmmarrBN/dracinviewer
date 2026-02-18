@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block title %}{{ book_title }} - Episodes{% endblock %}
+
+{% block extra_css %}
+<style>
+    .drama-header {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 25px;
+        background: rgba(255,255,255,0.05);
+        padding: 20px;
+        border-radius: 15px;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    @media (min-width: 768px) {
+        .drama-header {
+            flex-direction: row;
+            padding: 25px;
+        }
+    }
+    
+    .drama-poster {
+        width: 100%;
+        max-width: 200px;
+        height: auto;
+        aspect-ratio: 2/3;
+        object-fit: cover;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        margin: 0 auto;
+    }
+    
+    @media (min-width: 768px) {
+        .drama-poster {
+            margin: 0;
+        }
+    }
+    
+    .drama-details {
+        flex: 1;
+        text-align: center;
+    }
+    
+    @media (min-width: 768px) {
+        .drama-details {
+            text-align: left;
+        }
+    }
+    
+    .drama-details h2 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
+    
+    @media (min-width: 768px) {
+        .drama-details h2 {
+            font-size: 1.8rem;
+        }
+    }
+    
+    .drama-desc {
+        color: #888;
+        font-size: 0.9rem;
+        margin-bottom: 15px;
+    }
+    
+    .section-title {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+        color: #00d9ff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .episodes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 10px;
+    }
+    
+    @media (min-width: 768px) {
+        .episodes-grid {
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+        }
+    }
+    
+    .episode-card {
+        background: rgba(255,255,255,0.05);
+        border: 2px solid rgba(255,255,255,0.1);
+        border-radius: 10px;
+        padding: 15px 10px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        color: white;
+    }
+    
+    .episode-card:hover {
+        background: linear-gradient(45deg, #00d9ff, #ff00ff);
+        border-color: transparent;
+        transform: scale(1.05);
+    }
+    
+    .episode-card .ep-number {
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-bottom: 3px;
+    }
+    
+    .episode-card .ep-label {
+        font-size: 0.7rem;
+        opacity: 0.8;
+    }
+    
+    .back-btn {
+        margin-bottom: 15px;
+        font-size: 0.85rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<a href="/" class="btn-secondary back-btn"><i class="fas fa-arrow-left"></i> Kembali</a>
+
+<div class="drama-header">
+    <img src="{{ book_pic }}" alt="{{ book_title }}" class="drama-poster" onerror="this.src='https://via.placeholder.com/200x300?text=No+Image'">
+    <div class="drama-details">
+        <h2>{{ book_title }}</h2>
+        <p class="drama-desc">{{ episodes|length }} Episode</p>
+        {% if episodes %}
+        <a href="{{ url_for('watch', book_id=book_id, episode_num=1, filtered_title=filtered_title, chapter_id=episodes[0].chapter_id, book_title=book_title) }}" class="btn">
+            <i class="fas fa-play"></i> Mulai Ep 1
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<h3 class="section-title">
+    <span><i class="fas fa-list"></i> Pilih Episode</span>
+</h3>
+
+<div class="episodes-grid">
+    {% for ep in episodes %}
+    <a href="{{ url_for('watch', book_id=book_id, episode_num=ep.episode, filtered_title=filtered_title, chapter_id=ep.chapter_id, book_title=book_title) }}" class="episode-card">
+        <div class="ep-number">{{ ep.episode }}</div>
+        <div class="ep-label">Episode</div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

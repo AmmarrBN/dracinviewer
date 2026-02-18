@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Profil - {{ app_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    
+    .profile-header {
+        background: rgba(255,255,255,0.05);
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        margin-bottom: 30px;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #00d9ff, #ff00ff);
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3em;
+    }
+    
+    .profile-header h2 {
+        margin-bottom: 10px;
+    }
+    
+    .profile-header p {
+        color: #888;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin: 30px 0;
+    }
+    
+    .stat-card {
+        background: rgba(255,255,255,0.05);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+    }
+    
+    .stat-card h3 {
+        font-size: 2em;
+        color: #00d9ff;
+    }
+    
+    .stat-card p {
+        color: #888;
+        font-size: 14px;
+    }
+    
+    .history-section {
+        background: rgba(255,255,255,0.05);
+        padding: 30px;
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .history-section h3 {
+        margin-bottom: 20px;
+        color: #fff;
+    }
+    
+    .history-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 15px;
+        background: rgba(0,0,0,0.2);
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .history-item i {
+        font-size: 1.5em;
+        color: #00d9ff;
+    }
+    
+    .history-info {
+        flex: 1;
+    }
+    
+    .history-info h4 {
+        margin-bottom: 5px;
+    }
+    
+    .history-info p {
+        color: #888;
+        font-size: 13px;
+    }
+    
+    .empty-history {
+        text-align: center;
+        padding: 40px;
+        color: #888;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="profile-avatar">
+            <i class="fas fa-user"></i>
+        </div>
+        <h2>{{ user.username }}</h2>
+        <p><i class="fas fa-envelope"></i> {{ user.email }}</p>
+        <p style="margin-top: 10px; font-size: 14px;">
+            Bergabung: {{ user.created_at.strftime('%d %B %Y') }}
+        </p>
+    </div>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>{{ history|length }}</h3>
+            <p>Episode Ditonton</p>
+        </div>
+        <div class="stat-card">
+            <h3>{{ user.last_login.strftime('%d/%m') if user.last_login else '-' }}</h3>
+            <p>Login Terakhir</p>
+        </div>
+        <div class="stat-card">
+            <h3>Free</h3>
+            <p>Membership</p>
+        </div>
+    </div>
+    
+    <div class="history-section">
+        <h3><i class="fas fa-history"></i> Riwayat Tontonan</h3>
+        
+        {% if history %}
+            {% for item in history %}
+            <div class="history-item">
+                <i class="fas fa-play-circle"></i>
+                <div class="history-info">
+                    <h4>{{ item.book_title }}</h4>
+                    <p>Episode {{ item.episode_num }} • {{ item.watched_at.strftime('%d %B %Y, %H:%M') }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-history">
+                <i class="fas fa-film" style="font-size: 3em; margin-bottom: 15px;"></i>
+                <p>Belum ada riwayat tontonan</p>
+                <a href="/" class="btn" style="margin-top: 15px;">Mulai Menonton</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Tentang - {{ app_name }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    
+    .page-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    
+    .page-header h1 {
+        font-size: 2.5em;
+        margin-bottom: 15px;
+        background: linear-gradient(45deg, #00d9ff, #ff00ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .about-content {
+        background: rgba(255,255,255,0.05);
+        padding: 40px;
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.1);
+        line-height: 1.8;
+        color: #ccc;
+    }
+    
+    .about-content h2 {
+        color: #00d9ff;
+        margin: 30px 0 15px;
+    }
+    
+    .about-content p {
+        margin-bottom: 15px;
+    }
+    
+    .team-section {
+        margin-top: 50px;
+    }
+    
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+    }
+    
+    .team-member {
+        text-align: center;
+        padding: 30px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 20px;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .team-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, #00d9ff, #ff00ff);
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5em;
+    }
+    
+    .team-member h3 {
+        color: #fff;
+        margin-bottom: 5px;
+    }
+    
+    .team-member p {
+        color: #888;
+        font-size: 14px;
+    }
+    
+    .highlight-box {
+        background: linear-gradient(45deg, rgba(0,217,255,0.1), rgba(255,0,255,0.1));
+        padding: 30px;
+        border-radius: 15px;
+        margin: 30px 0;
+        border: 1px solid rgba(0,217,255,0.3);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="about-container">
+    <div class="page-header">
+        <h1><i class="fas fa-info-circle"></i> Tentang {{ app_name }}</h1>
+        <p>Mengenal lebih dekat platform streaming drama China terbaik</p>
+    </div>
+    
+    <div class="about-content">
+        <h2><i class="fas fa-rocket"></i> Visi Kami</h2>
+        <p>
+            {{ app_name }} didirikan dengan visi untuk menjadi platform streaming drama China 
+            terdepan yang dapat diakses oleh semua kalangan. Kami percaya bahwa hiburan 
+            berkualitas tidak harus mahal.
+        </p>
+        
+        <div class="highlight-box">
+            <h3 style="margin-top: 0; color: #fff;"><i class="fas fa-quote-left"></i> Misi Kami</h3>
+            <p style="margin-bottom: 0; font-style: italic;">
+                "Menyediakan akses mudah ke drama China berkualitas tinggi untuk semua orang, 
+                tanpa batasan finansial dan teknis."
+            </p>
+        </div>
+        
+        <h2><i class="fas fa-star"></i> Apa yang Kami Tawarkan</h2>
+        <p>
+            <strong style="color: #00d9ff;">Koleksi Lengkap:</strong> Ribuan drama China dari berbagai genre - romance, 
+            comedy, action, historical, dan masih banyak lagi.
+        </p>
+        <p>
+            <strong style="color: #00d9ff;">Kualitas Terbaik:</strong> Streaming HD dengan server cepat untuk pengalaman 
+            menonton tanpa buffering.
+        </p>
+        <p>
+            <strong style="color: #00d9ff;">Fitur Canggih:</strong> Auto-next episode, riwayat tontonan, dan rekomendasi 
+            personal untuk pengalaman terbaik.
+        </p>
+        
+        <h2><i class="fas fa-shield-alt"></i> Komitmen Kami</h2>
+        <p>
+            Kami berkomitmen untuk terus mengembangkan {{ app_name }} menjadi lebih baik. 
+            Feedback dari pengguna adalah prioritas utama kami dalam meningkatkan kualitas 
+            layanan.
+        </p>
+        
+        <p style="text-align: center; margin-top: 40px; color: #888;">
+            <i class="fas fa-heart" style="color: #ff00ff;"></i> 
+            Dibuat dengan cinta untuk pecinta drama China di seluruh dunia
+        </p>
+    </div>
+    
+    <div class="team-section">
+        <h2 style="text-align: center; margin-bottom: 10px;">Tim Kami</h2>
+        <p style="text-align: center; color: #888;">Developer di balik {{ app_name }}</p>
+        
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="team-avatar"><i class="fas fa-code"></i></div>
+                <h3>{{ copyright_name }}</h3>
+                <p>Lead Developer & Founder</p>
+                <a href="{{ copyright_url }}" target="_blank" style="color: #00d9ff;">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

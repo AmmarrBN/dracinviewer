@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{{ book_title }} - Ep {{ episode_num }} | {{ app_name }}</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#127909;</text></svg>">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+        }
+        
+        /* Simple Navbar */
+        .nav-bar {
+            background: rgba(0,0,0,0.8);
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-bar a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+        
+        .nav-title {
+            flex: 1;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* Video Container */
+        .video-container {
+            position: relative;
+            width: 100%;
+            background: #000;
+        }
+        
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+        }
+        
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        /* Controls Bar */
+        .controls-bar {
+            background: rgba(0,0,0,0.9);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .ep-info {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .ep-info h3 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .ep-info p {
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .nav-btn.primary {
+            background: linear-gradient(45deg, #00d9ff, #ff00ff);
+        }
+        
+        /* Next Overlay */
+        .next-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+        }
+        
+        .next-overlay.show {
+            display: flex;
+        }
+        
+        .next-countdown {
+            font-size: 4rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00d9ff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .next-info {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .next-info p {
+            color: #888;
+            margin-top: 10px;
+        }
+        
+        /* Episode List */
+        .episode-list {
+            padding: 20px 15px;
+            background: #0f0c29;
+        }
+        
+        .section-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #00d9ff;
+        }
+        
+        .ep-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+            gap: 10px;
+        }
+        
+        .ep-item {
+            background: rgba(255,255,255,0.1);
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .ep-item:hover, .ep-item.active {
+            background: linear-gradient(45deg, #00d9ff, #ff00ff);
+        }
+        
+        /* Desktop Layout */
+        @media (min-width: 768px) {
+            .main-layout {
+                display: grid;
+                grid-template-columns: 1fr 350px;
+                min-height: calc(100vh - 60px);
+            }
+            
+            .video-section {
+                position: sticky;
+                top: 0;
+                height: fit-content;
+            }
+            
+            .episode-list {
+                max-height: 100vh;
+                overflow-y: auto;
+            }
+            
+            .nav-title {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Nav -->
+    <div class="nav-bar">
+        <a href="/episodes/{{ book_id }}?filtered_title={{ filtered_title }}&book_title={{ book_title }}&book_pic={{ video_pic }}">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <div class="nav-title">{{ book_title }}</div>
+        <a href="/"><i class="fas fa-home"></i></a>
+    </div>
+    
+    <div class="main-layout">
+        <div class="video-section">
+            <!-- Video -->
+            <div class="video-container">
+                <div class="video-wrapper">
+                    <video id="player" controls autoplay playsinline>
+                        <source src="{{ video_url }}" type="application/x-mpegURL">
+                    </video>
+                    
+                    <div id="nextOverlay" class="next-overlay">
+                        <div class="next-countdown" id="countdown">5</div>
+                        <div class="next-info">
+                            <h3>Episode {{ episode_num }} Selesai</h3>
+                            <p>Episode {{ next_episode.episode }} akan diputar</p>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="nav-btn primary" onclick="playNext()">Putar Sekarang</button>
+                            <button class="nav-btn" onclick="cancelNext()">Batal</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Controls -->
+            <div class="controls-bar">
+                <div class="ep-info">
+                    <h3>Ep {{ episode_num }}: {{ book_title }}</h3>
+                    <p>{{ duration }} detik • {{ total_episodes }} Episode</p>
+                </div>
+                <div class="nav-buttons">
+                    {% if episode_num > 1 %}
+                    <a href="/watch/{{ book_id }}/{{ episode_num - 1 }}?filtered_title={{ filtered_title }}&chapter_id={{ chapter_id }}&book_title={{ book_title }}" class="nav-btn">
+                        <i class="fas fa-step-backward"></i> Prev
+                    </a>
+                    {% endif %}
+                    {% if next_episode %}
+                    <a href="/watch/{{ book_id }}/{{ next_episode.episode }}?filtered_title={{ filtered_title }}&chapter_id={{ next_episode.chapter_id }}&book_title={{ book_title }}" class="nav-btn primary">
+                        Next <i class="fas fa-step-forward"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Episode List -->
+        <div class="episode-list">
+            <h3 class="section-title"><i class="fas fa-list"></i> Semua Episode</h3>
+            <div class="ep-grid" id="epGrid">
+                <!-- Loaded via JS -->
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script>
+        const player = document.getElementById('player');
+        const bookId = '{{ book_id }}';
+        const filteredTitle = '{{ filtered_title }}';
+        const bookTitle = '{{ book_title }}';
+        const currentEp = {{ episode_num }};
+        const nextEp = {{ next_episode|tojson }};
+        
+        // Init HLS
+        if (Hls.isSupported()) {
+            const hls = new Hls();
+            hls.loadSource(player.querySelector('source').src);
+            hls.attachMedia(player);
+        }
+        
+        // Auto next
+        player.addEventListener('ended', () => {
+            if (nextEp) {
+                document.getElementById('nextOverlay').classList.add('show');
+                let count = 5;
+                const timer = setInterval(() => {
+                    count--;
+                    document.getElementById('countdown').textContent = count;
+                    if (count <= 0) {
+                        clearInterval(timer);
+                        playNext();
+                    }
+                }, 1000);
+                window.cancelTimer = timer;
+            }
+        });
+        
+        function playNext() {
+            if (nextEp) {
+                window.location.href = `/watch/${bookId}/${nextEp.episode}?filtered_title=${encodeURIComponent(filteredTitle)}&chapter_id=${nextEp.chapter_id}&book_title=${encodeURIComponent(bookTitle)}`;
+            }
+        }
+        
+        function cancelNext() {
+            clearInterval(window.cancelTimer);
+            document.getElementById('nextOverlay').classList.remove('show');
+        }
+        
+        // Load episode list
+        fetch(`/api/episodes/${bookId}?filtered_title=${filteredTitle}`)
+            .then(r => r.json())
+            .then(data => {
+                const grid = document.getElementById('epGrid');
+                grid.innerHTML = data.episodes.map(ep => `
+                    <a href="/watch/${bookId}/${ep.episode}?filtered_title=${encodeURIComponent(filteredTitle)}&chapter_id=${ep.chapter_id}&book_title=${encodeURIComponent(bookTitle)}" 
+                       class="ep-item ${ep.episode === currentEp ? 'active' : ''}">
+                        ${ep.episode}
+                    </a>
+                `).join('');
+            });
+    </script>
+</body>
+</html>
