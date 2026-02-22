@@ -82,13 +82,7 @@ source venv/bin/activate
 # 4. Install dependencies
 pip install -r requirements.txt
 
-# 5. Setup environment variables
-# Buat file .env di root folder, isi:
-# SECRET_KEY=your-secret-key
-# MAIL_USERNAME=your-email@gmail.com
-# MAIL_PASSWORD=your-app-password
-
-# 6. Jalankan aplikasi
+# 5. Jalankan aplikasi
 python app.py
 ```
 
